@@ -1,10 +1,10 @@
-// Given Parameters
+// Given Parameters/variables
 const velocity = 10000; // initial velocity (km/h)
 const acceleration = 3; // acceleration (m/s^2)
 const timeSec = 3600; // time (seconds)
-const initialDistanceKm = 0; // initial distance (km)
-const remainingFuelKg = 5000; // remaining fuel (kg)
-const fuelBurnRateKgs = 0.5; // fuel burn rate (kg/s)
+const initialDistance = 0; // initial distance (km)
+const remainingFuel = 5000; // remaining fuel (kg)
+const fuelBurnRate = 0.5; // fuel burn rate (kg/s)
 
 // Function to calculate new velocity
 const calculateNewVelocity = (velocity, acceleration, timeSec) => {
@@ -25,9 +25,9 @@ const calculateNewVelocity = (velocity, acceleration, timeSec) => {
 };
 
 // Function to calculate new distance
-const calculateNewDistance = (initialDistanceKm, velocityKmh, acceleration, timeSec) => {
+const calculateNewDistance = (initialDistance, velocity, acceleration, timeSec) => {
   // Validate input types
-  if (typeof initialDistanceKm !== 'number' || 
+  if (typeof initialDistance !== 'number' || 
       typeof velocity !== 'number' || 
       typeof acceleration !== 'number' || 
       typeof timeSec !== 'number') {
@@ -38,36 +38,38 @@ const calculateNewDistance = (initialDistanceKm, velocityKmh, acceleration, time
   const accelerationKmh2 = acceleration * 12960; // 1 m/s^2 = 12960 km/h^2
 
   // Calculate distance traveled in km
-  const newDistanceKm = initialDistanceKm + (velocityKmh * timeSec / 3600) + (0.5 * accelerationKmh2 * timeSec * timeSec / 12960000);
+  const newDistanceKm = initialDistance + (velocity * timeSec / 3600) + (0.5 * accelerationKmh2 * timeSec * timeSec / 12960000);
 
   return newDistanceKm;
 };
 
 // Function to calculate remaining fuel
-const calculateRemainingFuel = (remainingFuel, fuelBurnRateKgs, timeSec) => {
+const calculateRemainingFuel = (remainingFuel, fuelBurnRate, timeSec) => {
   // Validate input types
   if (typeof remainingFuel !== 'number' || 
-      typeof fuelBurnRateKgs !== 'number' || 
+      typeof fuelBurnRate !== 'number' || 
       typeof timeSec !== 'number') {
     throw new Error('Invalid input: All parameters must be numbers.');
   }
 
   // Calculate fuel consumption
-  const fuelConsumedKg = fuelBurnRateKgs * timeSec;
-  const remainingFuelAfterBurn = remainingFuel - fuelConsumedKg;
+  const fuelConsumed = fuelBurnRate * timeSec;
+  const remainingFuelAfterBurn = remainingFuel - fuelConsumed;
 
   return remainingFuelAfterBurn;
 };
-
+//Wrap calculations in a try  for error handling.
 try {
   const newVelocityKmh = calculateNewVelocity(velocity, acceleration, timeSec);
-  const newDistanceKm = calculateNewDistance(initialDistanceKm, velocity, acceleration, timeSec);
-  const remainingFuelKgAfterBurn = calculateRemainingFuel(remainingFuelKg, fuelBurnRateKgs, timeSec);
+  const newDistanceKm = calculateNewDistance(initialDistance, velocity, acceleration, timeSec);
+  const remainingFuelAfterBurn = calculateRemainingFuel(remainingFuel, fuelBurnRate, timeSec);
 
-  // Output results
+ 
   console.log(`Corrected New Velocity: ${newVelocityKmh} km/h`);
   console.log(`Corrected New Distance: ${newDistanceKm} km`);
-  console.log(`Corrected Remaining Fuel: ${remainingFuelKgAfterBurn} kg`);
+  console.log(`Corrected Remaining Fuel: ${remainingFuelAfterBurn} kg`);
+
 } catch (error) {
+   //catch block for error handling.
   console.error(`Error: ${error.message}`);
-}
+};
