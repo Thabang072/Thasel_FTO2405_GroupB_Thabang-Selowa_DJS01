@@ -26,7 +26,7 @@ const calculateNewVelocity = (velocity, acceleration, time) => {
   // Converts acceleration from meters per second squared (m/s²) to kilometers per hour squared (km/h²) "1 m/s^2 = 12960 km/h^2" 
   const accelerationKmh2 = acceleration * 12960; 
   // Calculate new velocity in km/h
-  const newVelocity = velocity + (accelerationKmh2 * time / 3600);
+  const newVelocity = velocity + (accelerationKmh2 * time / 3600 );
 
   return newVelocity;
 };
@@ -45,7 +45,8 @@ const calculateNewDistance = (initialDistance, velocity, acceleration, time) => 
   const accelerationKmh2 = acceleration * 12960; // 1 m/s^2 = 12960 km/h^2
 
   // Calculate distance traveled in km
-  const newDistanceKm = initialDistance + (velocity * time / 3600) + (0.5 * accelerationKmh2 * time * time / 12960000);
+  // Round the fractional number to the nearest whole number using math.round
+  const newDistanceKm = Math.round(initialDistance + (velocity * time / 3600) + (0.5 * accelerationKmh2 * time * time / 1296000000000));
 
   return newDistanceKm;
 };
